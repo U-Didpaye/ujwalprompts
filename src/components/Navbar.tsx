@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Target, History, Sparkles, PlusCircle, HelpCircle } from 'lucide-react';
+import { Target, History, Sparkles, PlusCircle, HelpCircle, Palette, Check } from 'lucide-react';
 import { WorkflowStep } from '../types/decision';
 import { DEMO_SCENARIOS } from '../data/demoDecisions';
 
@@ -11,6 +11,8 @@ interface NavbarProps {
   onNewDecision: () => void;
   historyCount: number;
   onToggleHelp: () => void;
+  currentTheme: 'obsidian' | 'deep-plum';
+  onThemeChange: (theme: 'obsidian' | 'deep-plum') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -20,9 +22,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenHistory,
   onNewDecision,
   historyCount,
-  onToggleHelp
+  onToggleHelp,
+  currentTheme,
+  onThemeChange
 }) => {
   const [showDemoDropdown, setShowDemoDropdown] = useState(false);
+  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 bg-[#090A0A]/90 backdrop-blur-md border-b border-white/10">
@@ -53,7 +58,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Demo Preset Dropdown */}
           <div className="relative">
             <button
-              onClick={() => setShowDemoDropdown(!showDemoDropdown)}
+              onClick={() => {
+                setShowDemoDropdown(!showDemoDropdown);
+                setShowThemeDropdown(false);
+              }}
               className="flex items-center space-x-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl bg-[#1A1D1D] hover:bg-[#242828] text-[#C7F36B] border border-[#C7F36B]/30 transition-all shadow-sm"
               title="Try a pre-loaded real-world decision scenario"
             >
@@ -105,6 +113,69 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Menu Controls */}
         <div className="flex items-center space-x-2">
           
+          {/* Theme Switcher Button */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setShowThemeDropdown(!showThemeDropdown);
+                setShowDemoDropdown(false);
+              }}
+              className="p-2 rounded-xl text-[#A4A7A3] hover:text-[#F3F2EC] hover:bg-[#1A1D1D] transition-colors flex items-center justify-center"
+              title="Appearance Theme"
+            >
+              <Palette className="w-4 h-4" />
+            </button>
+
+            {showThemeDropdown && (
+              <div 
+                className="absolute top-full mt-2 right-0 w-64 bg-[#111313] border border-white/10 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in duration-150"
+                onMouseLeave={() => setShowThemeDropdown(false)}
+              >
+                <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#A4A7A3] border-b border-white/10 mb-1">
+                  Appearance Theme
+                </div>
+
+                <button
+                  onClick={() => {
+                    onThemeChange('obsidian');
+                    setShowThemeDropdown(false);
+                  }}
+                  className={`w-full text-left p-2.5 rounded-lg transition-colors flex items-center justify-between ${
+                    currentTheme === 'obsidian' ? 'bg-[#1A1D1D] border border-[#C7F36B]/30 text-[#F3F2EC]' : 'hover:bg-[#1A1D1D] text-[#A4A7A3]'
+                  }`}
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="flex space-x-1">
+                      <span className="w-3 h-3 rounded-full bg-[#090A0A] border border-white/20 inline-block"></span>
+                      <span className="w-3 h-3 rounded-full bg-[#C7F36B] inline-block"></span>
+                    </div>
+                    <span className="text-xs font-semibold">Obsidian + Electric Lime</span>
+                  </div>
+                  {currentTheme === 'obsidian' && <Check className="w-3.5 h-3.5 text-[#C7F36B]" />}
+                </button>
+
+                <button
+                  onClick={() => {
+                    onThemeChange('deep-plum');
+                    setShowThemeDropdown(false);
+                  }}
+                  className={`w-full text-left p-2.5 rounded-lg transition-colors flex items-center justify-between mt-1 ${
+                    currentTheme === 'deep-plum' ? 'bg-[#1A1D1D] border border-[#C7F36B]/30 text-[#F3F2EC]' : 'hover:bg-[#1A1D1D] text-[#A4A7A3]'
+                  }`}
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="flex space-x-1">
+                      <span className="w-3 h-3 rounded-full bg-[#0D0B12] border border-white/20 inline-block"></span>
+                      <span className="w-3 h-3 rounded-full bg-[#F4B8E4] inline-block"></span>
+                    </div>
+                    <span className="text-xs font-semibold">Deep Plum + Soft Rose</span>
+                  </div>
+                  {currentTheme === 'deep-plum' && <Check className="w-3.5 h-3.5 text-[#C7F36B]" />}
+                </button>
+              </div>
+            )}
+          </div>
+
           <button
             onClick={onToggleHelp}
             className="p-2 rounded-xl text-[#A4A7A3] hover:text-[#F3F2EC] hover:bg-[#1A1D1D] transition-colors"
@@ -133,3 +204,4 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
+

@@ -19,8 +19,24 @@ import { FinalReflectionStep } from './components/FinalReflectionStep';
 import { ChallengeModal } from './components/ChallengeModal';
 import { DecisionHistoryDrawer } from './components/DecisionHistoryDrawer';
 import { ExportModal } from './components/ExportModal';
+import { ParticleBackground } from './components/ParticleBackground';
+
+export type ThemeMode = 'obsidian' | 'deep-plum';
 
 export const App: React.FC = () => {
+  // Theme state persisted in localStorage
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    const saved = localStorage.getItem('blindspot_theme_v2');
+    if (saved === 'deep-plum' || saved === 'obsidian') return saved;
+    return 'obsidian';
+  });
+
+  // Apply data-theme attribute on document root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('blindspot_theme_v2', theme);
+  }, [theme]);
+
   // Opening animation state
   const [showOpening, setShowOpening] = useState<boolean>(true);
 
@@ -171,10 +187,17 @@ export const App: React.FC = () => {
         onNewDecision={handleNewDecision}
         historyCount={history.length}
         onToggleHelp={() => setActiveStep('landing')}
+        currentTheme={theme}
+        onThemeChange={setTheme}
       />
 
+      {/* Internal Screens Animated AI Particle Background (hidden on landing page) */}
+      {activeStep !== 'landing' && (
+        <ParticleBackground theme={theme} />
+      )}
+
       {/* Main Content Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         
         {/* Stepper Progress Indicator */}
         <StepProgress
