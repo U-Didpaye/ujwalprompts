@@ -4,6 +4,7 @@ import { DEMO_SCENARIOS } from './data/demoDecisions';
 import { storageService } from './services/storageService';
 import { aiService } from './services/aiService';
 
+import { OpeningAnimation } from './components/OpeningAnimation';
 import { Navbar } from './components/Navbar';
 import { LandingHero } from './components/LandingHero';
 import { StepProgress } from './components/StepProgress';
@@ -20,7 +21,10 @@ import { DecisionHistoryDrawer } from './components/DecisionHistoryDrawer';
 import { ExportModal } from './components/ExportModal';
 
 export const App: React.FC = () => {
-  // Workflow state defaults to landing page
+  // Opening animation state
+  const [showOpening, setShowOpening] = useState<boolean>(true);
+
+  // Workflow step state defaults to landing
   const [activeStep, setActiveStep] = useState<WorkflowStep>('landing');
   
   // Decision Input state initialized with default draft or realistic demo
@@ -151,8 +155,13 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[#090A0A] text-[#F3F2EC] flex flex-col font-sans selection:bg-[#C7F36B] selection:text-black">
       
+      {/* 1.8s Cinematic Opening Animation */}
+      {showOpening && (
+        <OpeningAnimation onComplete={() => setShowOpening(false)} />
+      )}
+
       {/* Navigation Header */}
       <Navbar
         activeStep={activeStep}
@@ -239,16 +248,16 @@ export const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-500">
+      <footer className="border-t border-white/10 bg-[#090A0A] py-8 text-center text-xs text-[#A4A7A3]">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
-            <span className="font-bold text-slate-400">BlindSpot</span> — AI Decision Intelligence & Cognitive Bias Analyzer
+            <span className="font-bold text-[#F3F2EC]">BlindSpot</span> — AI Decision Intelligence & Cognitive Bias Analyzer
           </div>
           <div className="flex items-center space-x-4">
-            <button onClick={() => setActiveStep('landing')} className="hover:text-slate-300">
+            <button onClick={() => setActiveStep('landing')} className="hover:text-[#F3F2EC]">
               Product Philosophy
             </button>
-            <button onClick={() => setIsHistoryOpen(true)} className="hover:text-slate-300">
+            <button onClick={() => setIsHistoryOpen(true)} className="hover:text-[#F3F2EC]">
               Saved History ({history.length})
             </button>
           </div>

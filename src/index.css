@@ -1,7 +1,21 @@
 @import "tailwindcss";
 
+:root {
+  --bg-obsidian: #090A0A;
+  --surface-1: #111313;
+  --surface-2: #151717;
+  --surface-3: #1A1D1D;
+  --text-primary: #F3F2EC;
+  --text-secondary: #A4A7A3;
+  --accent-lime: #C7F36B;
+  --accent-warning: #D6A84F;
+  --accent-risk: #E55353;
+}
+
 @layer base {
   body {
+    background-color: var(--bg-obsidian);
+    color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
   
@@ -12,52 +26,89 @@
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: #090A0A;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(51, 65, 85, 0.8);
-  border-radius: 4px;
+  background: #1A1D1D;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(71, 85, 105, 1);
+  background: #262929;
 }
 
-/* Custom animations & glow utilities */
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(0.995); }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* Panel & Card Surface Utility Classes */
+.obsidian-panel {
+  background: #111313;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.glass-card {
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(12px);
+.obsidian-card {
+  background: #151717;
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.glass-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
+.obsidian-card:hover {
+  border-color: rgba(199, 243, 107, 0.25);
+}
+
+.obsidian-elevated {
+  background: #1A1D1D;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Electric Lime CTA Button */
+.btn-lime {
+  background-color: #C7F36B;
+  color: #090A0A;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-lime:hover {
+  background-color: #d4f788;
+  box-shadow: 0 0 20px rgba(199, 243, 107, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-lime:active {
+  transform: translateY(0);
+}
+
+/* Muted Secondary Button */
+.btn-secondary {
+  background-color: #1A1D1D;
+  color: #F3F2EC;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #242828;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
 }
 
 /* Smooth Focus states */
 *:focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid #C7F36B;
   outline-offset: 2px;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
