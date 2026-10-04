@@ -1,0 +1,6 @@
+# BlindSpot Server-Side Environment Configuration
+# Copy this file to .env and configure your GEMINI_API_KEY on the server.
+# NOTE: GEMINI_API_KEY must ONLY exist on the server environment. It is NEVER sent to client JS bundles.
+
+GEMINI_API_KEY=your_server_side_gemini_api_key_here
+PORT=3000
